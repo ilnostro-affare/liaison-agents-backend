@@ -1,0 +1,44 @@
+# EXAMPLE ONLY - placeholder ids. The Graph worker: write layer (src/write) + pool (src/pool).
+# This extract is not a deployable worker as-is (see README "What is not here").
+name = "graph-worker-example"
+main = "src/index.js"                      # your own entry that routes to handleBuildWrite / pool handlers
+compatibility_date = "2024-09-23"
+
+routes = [{ pattern = "api.example.com", custom_domain = true }]
+
+[vars]
+META_APP_ID = "<your-meta-app-id>"
+
+[[kv_namespaces]]
+binding = "META_KV"                        # tokens, plans, journal, consent, pool token reverse map
+id = "00000000000000000000000000000000"
+
+[[r2_buckets]]
+binding = "META_LEADS_R2"                  # persisted pool media: {owner}/creatives/{adId}, {owner}/videos/{id}.mp4
+bucket_name = "example-media"
+
+[[r2_buckets]]
+binding = "GLOBAL_POOL_R2"                 # members/{m}.json + agg/pins.json
+bucket_name = "example-pool"
+
+[images]
+binding = "IMAGES"                         # WebP transcode of previews
+
+[[queues.producers]]
+queue = "example-pool-build"
+binding = "MAPS_QUEUE"
+
+[[queues.consumers]]
+queue = "example-pool-build"
+max_batch_size = 1                         # one ad account per invocation
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "example-pool-build-dlq"
+
+[triggers]
+crons = ["0 * * * *"]                      # hourly; the pool refresh runs at 03:00 UTC only
+
+[observability]
+enabled = true
+
+# Secrets (wrangler secret put): META_APP_SECRET, INTERNAL_API_TOKEN

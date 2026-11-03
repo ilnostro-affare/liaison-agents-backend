@@ -1,0 +1,22 @@
+# EXAMPLE ONLY - placeholder ids. A worker exporting the UsageMeter Durable Object.
+name = "usage-example"
+main = "src/usage/usage-meter.js"          # export UsageMeter from your entry module
+compatibility_date = "2024-09-23"
+
+[[durable_objects.bindings]]
+name = "USAGE"
+class_name = "UsageMeter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["UsageMeter"]
+
+[[kv_namespaces]]
+binding = "USAGE_KV"                       # the read-only mirror of the windows
+id = "00000000000000000000000000000000"
+
+# Another worker binds the same class with:
+# [[durable_objects.bindings]]
+# name = "USAGE"
+# class_name = "UsageMeter"
+# script_name = "usage-example"

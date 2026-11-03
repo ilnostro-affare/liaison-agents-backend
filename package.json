@@ -1,0 +1,9 @@
+{
+  "name": "liaison-agents-backend",
+  "private": true,
+  "type": "module",
+  "description": "Curated extract of the Liaison backend (Cloudflare Workers): MCP server, confirmed write path, agent call logs, a per-member Durable Object, an anonymized cross-tenant pool.",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": { "node": ">=20.6" },
+  "scripts": { "test": "node test/run.js" }
+}

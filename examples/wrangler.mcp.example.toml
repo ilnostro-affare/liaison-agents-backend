@@ -1,0 +1,12 @@
+# EXAMPLE ONLY - placeholder ids. The MCP server (src/mcp/server.js).
+name = "mcp-example"
+main = "src/mcp/server.js"
+compatibility_date = "2024-09-23"
+
+routes = [{ pattern = "mcp.example.com", custom_domain = true }]
+
+[[kv_namespaces]]
+binding = "META_KV"                        # mcp_token:{bearer}, authsession:{token}
+id = "00000000000000000000000000000000"
+
+# Secrets (wrangler secret put): INTERNAL_API_TOKEN (shared with the Graph worker)
